@@ -1,9 +1,11 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import playerReducer from './reducers/playerReducer';
+import tracklistReducer from './reducers/tracklistReducer';
 
 const rootReducer = combineReducers({
   player: playerReducer,
+  tracklist: tracklistReducer,
 });
 
 function logger({getState}) {
@@ -21,3 +23,24 @@ const configureStore = () => {
 };
 
 export default configureStore;
+
+/*
+
+ STATE SHAPE:
+
+ {
+
+  player: {
+    isActive: true,
+    track: 'test.mp3'
+  },
+
+  tracklist: [
+    {
+      fileName: 'test.mp3'
+    }
+  ]
+
+ }
+
+*/

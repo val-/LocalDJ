@@ -7,11 +7,15 @@ import NextIcon from './components/NextIcon';
 import PrevIcon from './components/PrevIcon';
 
 import {play, pause} from './actions/player';
+import {rescanFiles} from './actions/tracklist';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {isActive: true};
+  }
+
+  componentDidMount() {
+    this.props.rescanFiles();    
   }
 
   handleSwitch = () => {
@@ -54,15 +58,10 @@ const mapStateToProps = state => ({
   isActive: state.player.isActive,
 });
 
-const mapDispatchToProps = dispatch => {
-  return {
-    play: () => {
-      dispatch(play());
-    },
-    pause: () => {
-      dispatch(pause());
-    },
-  };
+const mapDispatchToProps = {
+  play,
+  pause,
+  rescanFiles,
 };
 
 export default connect(

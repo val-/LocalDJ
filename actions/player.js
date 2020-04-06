@@ -1,19 +1,25 @@
 import Sound from 'react-native-sound';
+import { ExternalDirectoryPath } from 'react-native-fs';
 
 import {PLAY, PAUSE} from './types';
 
 let currentSound;
 
-export const play = () => dispatch => {
+export const play = () => (dispatch, getState) => {
+
+  const { tracklist } = getState();
+  const track = `${ExternalDirectoryPath}/${tracklist[0]}`;
+
   if (currentSound) {
     currentSound.play();
   } else {
-    currentSound = new Sound(require('../test.mp3'), (error, sound) => {
+    currentSound = new Sound(track, '', () => {
       currentSound.play(() => {
-        sound.release();
+        currentSound.release();
       });
     });
   }
+
   dispatch({
     type: PLAY,
   });
