@@ -10,6 +10,7 @@ const playerReducer = (state = initialState, action) => {
       return {
         ...state,
         isActive: true,
+        track: action.payload.track
       };
     case PAUSE:
       return {

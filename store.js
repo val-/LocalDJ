@@ -43,4 +43,14 @@ export default configureStore;
 
  }
 
+
+ USER ACTIONS:
+
+ PAUSE
+ DELETE_TRACK
+ PLAY_NEXT
+ PLAY_PREV
+ SWITCH_FILTER
+ ADD_TO_FAVORITES
+
 */

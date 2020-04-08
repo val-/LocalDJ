@@ -10,7 +10,6 @@ export const addTracks = (tracks) => ({
 
 export const rescanFiles = () => dispatch => {
     RNFetchBlob.fs.ls(ExternalDirectoryPath).then((files) => {
-        console.log('files: ', files)
         dispatch(addTracks(files));
     });
 };

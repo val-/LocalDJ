@@ -7,27 +7,37 @@ let currentSound;
 
 export const play = () => (dispatch, getState) => {
 
-  const { tracklist } = getState();
-  const track = `${ExternalDirectoryPath}/${tracklist[0]}`;
-
-  if (currentSound) {
-    currentSound.play();
+  const { tracklist, player } = getState();
+  const track = player.track || generateNextTrack(tracklist);
+  if (player.track) {
+    playCurrentTrack();
   } else {
-    currentSound = new Sound(track, '', () => {
-      currentSound.play(() => {
-        currentSound.release();
-      });
-    });
+    playNewTrack(track);
   }
-
   dispatch({
     type: PLAY,
+    payload: { track },
   });
+
 };
+
+const playNewTrack = (track) => {
+  currentSound = new Sound(track, '', playCurrentTrack);
+};
+
+const playCurrentTrack = () => {
+  currentSound.play(() => {
+    currentSound.release();
+  });
+}
 
 export const pause = () => dispatch => {
   currentSound.pause();
   dispatch({
     type: PAUSE,
   });
+};
+
+const generateNextTrack = (tracklist) => {
+  return `${ExternalDirectoryPath}/${tracklist[1]}`;
 };
