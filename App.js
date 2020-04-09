@@ -6,7 +6,7 @@ import PlaybackIcon from './components/PlaybackIcon';
 import NextIcon from './components/NextIcon';
 import PrevIcon from './components/PrevIcon';
 
-import {play, pause} from './actions/player';
+import {play, pause, setTrackNext} from './actions/player';
 import {rescanFiles} from './actions/tracklist';
 
 class App extends React.Component {
@@ -15,10 +15,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.props.rescanFiles();    
+    this.props.rescanFiles(this.props.setTrackNext);
   }
 
-  handleSwitch = () => {
+  handleSwitchPlayback = () => {
     if (this.props.isActive) {
       this.props.pause();
     } else {
@@ -26,15 +26,22 @@ class App extends React.Component {
     }
   };
 
+  handleSwitchNext = () => {
+    this.props.setTrackNext();
+    this.props.play();
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.row}>
           <PrevIcon />
-          <TouchableOpacity onPress={this.handleSwitch}>
+          <TouchableOpacity onPress={this.handleSwitchPlayback}>
             <PlaybackIcon isActive={this.props.isActive} />
           </TouchableOpacity>
-          <NextIcon />
+          <TouchableOpacity onPress={this.handleSwitchNext}>
+            <NextIcon />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -62,6 +69,7 @@ const mapDispatchToProps = {
   play,
   pause,
   rescanFiles,
+  setTrackNext,
 };
 
 export default connect(

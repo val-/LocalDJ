@@ -8,8 +8,9 @@ export const addTracks = (tracks) => ({
     payload: tracks
 });
 
-export const rescanFiles = () => dispatch => {
+export const rescanFiles = (cb) => dispatch => {
     RNFetchBlob.fs.ls(ExternalDirectoryPath).then((files) => {
         dispatch(addTracks(files));
+        cb();
     });
 };

@@ -1,33 +1,26 @@
 import Sound from 'react-native-sound';
 import { ExternalDirectoryPath } from 'react-native-fs';
 
-import {PLAY, PAUSE} from './types';
+import { PLAY, PAUSE, SET_TRACK } from './types';
 
 let currentSound;
 
 export const play = () => (dispatch, getState) => {
-
-  const { tracklist, player } = getState();
-  const track = player.track || generateNextTrack(tracklist);
-  if (player.track) {
-    playCurrentTrack();
-  } else {
-    playNewTrack(track);
+  const { player } = getState();
+  if (currentSound && currentSound._filename !== player.track) {
+    currentSound.release();
+    currentSound = false;
   }
-  dispatch({
-    type: PLAY,
-    payload: { track },
-  });
-
-};
-
-const playNewTrack = (track) => {
-  currentSound = new Sound(track, '', playCurrentTrack);
-};
-
-const playCurrentTrack = () => {
+  if (!currentSound) {
+    currentSound = new Sound(`${ExternalDirectoryPath}/${player.track}`, '', playCurrentSound);
+  } else {    
+    playCurrentSound();
+  }
   currentSound.play(() => {
     currentSound.release();
+  });
+  dispatch({
+    type: PLAY,
   });
 }
 
@@ -38,6 +31,22 @@ export const pause = () => dispatch => {
   });
 };
 
-const generateNextTrack = (tracklist) => {
-  return `${ExternalDirectoryPath}/${tracklist[1]}`;
-};
+export const setTrackNext = () => (dispatch, getState) => {
+  const { tracklist } = getState();
+  dispatch(setTrack(generateNextTrack(tracklist)));
+}
+
+const setTrack = (track) => ({
+  type: SET_TRACK,
+  payload: { track },
+});
+
+const generateNextTrack = (tracklist) => tracklist[random(tracklist.length - 1)];
+
+const random = (max) => Math.floor((max) * Math.random());
+
+const playCurrentSound = () => {
+  currentSound.play(() => {
+    currentSound.release();
+  });
+}

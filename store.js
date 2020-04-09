@@ -32,25 +32,27 @@ export default configureStore;
 
   player: {
     isActive: true,
-    track: 'test.mp3'
+    track: 'c.mp3',
   },
 
   tracklist: [
-    {
-      fileName: 'test.mp3'
-    }
+    'a.mp3',
+    'b.mp3',
+    'c.mp3',
+    'd.mp3',
   ]
 
  }
 
 
- USER ACTIONS:
+ ACTIONS:
 
- PAUSE
- DELETE_TRACK
- PLAY_NEXT
- PLAY_PREV
- SWITCH_FILTER
- ADD_TO_FAVORITES
+ SET_TRACK - устанавливает текущий трэк
+ 
+ PLAY - включает текущий трэк
+ PAUSE - выключает текущий трэк
+
+
+
 
 */
