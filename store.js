@@ -12,7 +12,7 @@ function logger({getState}) {
   return next => action => {
     console.log('will dispatch: ', action);
     const returnValue = next(action);
-    console.log('state after dispatch: ', getState());
+    console.log('state after dispatch: ', JSON.stringify(getState(), false, 2));
     console.log('__________________________________________________________');
     return returnValue;
   };
@@ -32,7 +32,11 @@ export default configureStore;
 
   player: {
     isActive: true,
-    track: 'c.mp3',
+    track: {
+      past: [],
+      present: 'c.mp3',
+      future: [],
+    }
   },
 
   tracklist: [

@@ -1,13 +1,13 @@
 import * as React from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import {connect} from 'react-redux';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 
 import PlaybackIcon from './components/PlaybackIcon';
 import NextIcon from './components/NextIcon';
 import PrevIcon from './components/PrevIcon';
 
-import {play, pause, setTrackNext} from './actions/player';
-import {rescanFiles} from './actions/tracklist';
+import { play, pause, setTrackNext, setTrackPrev } from './actions/player';
+import { rescanFiles } from './actions/tracklist';
 
 class App extends React.Component {
   constructor(props) {
@@ -26,6 +26,11 @@ class App extends React.Component {
     }
   };
 
+  handleSwitchPrev = () => {
+    this.props.setTrackPrev();
+    this.props.play();
+  };
+
   handleSwitchNext = () => {
     this.props.setTrackNext();
     this.props.play();
@@ -35,7 +40,9 @@ class App extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.row}>
-          <PrevIcon />
+          <TouchableOpacity onPress={this.handleSwitchPrev}>
+            <PrevIcon />
+          </TouchableOpacity>
           <TouchableOpacity onPress={this.handleSwitchPlayback}>
             <PlaybackIcon isActive={this.props.isActive} />
           </TouchableOpacity>
@@ -70,6 +77,7 @@ const mapDispatchToProps = {
   pause,
   rescanFiles,
   setTrackNext,
+  setTrackPrev,
 };
 
 export default connect(

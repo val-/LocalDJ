@@ -1,18 +1,24 @@
 import Sound from 'react-native-sound';
 import { ExternalDirectoryPath } from 'react-native-fs';
 
-import { PLAY, PAUSE, SET_TRACK } from './types';
+import {
+  PLAY,
+  PAUSE,
+  SET_TRACK,
+  ROLLBACK_TRACK,
+  ROLLFORWARD_TRACK
+} from './types';
 
 let currentSound;
 
 export const play = () => (dispatch, getState) => {
   const { player } = getState();
-  if (currentSound && currentSound._filename !== player.track) {
+  if (currentSound && currentSound._filename !== player.track.present) {
     currentSound.release();
     currentSound = false;
   }
   if (!currentSound) {
-    currentSound = new Sound(`${ExternalDirectoryPath}/${player.track}`, '', playCurrentSound);
+    currentSound = new Sound(`${ExternalDirectoryPath}/${player.track.present}`, '', playCurrentSound);
   } else {    
     playCurrentSound();
   }
@@ -32,8 +38,21 @@ export const pause = () => dispatch => {
 };
 
 export const setTrackNext = () => (dispatch, getState) => {
-  const { tracklist } = getState();
-  dispatch(setTrack(generateNextTrack(tracklist)));
+  const { player, tracklist } = getState();
+  if (player.track.future.length) {
+    dispatch({
+      type: ROLLFORWARD_TRACK
+    });
+  } else {
+    dispatch(setTrack(generateNextTrack(tracklist)));
+  }
+}
+
+export const setTrackPrev = () => (dispatch, getState) => {
+  // TODO handle goto start track
+  dispatch({
+    type: ROLLBACK_TRACK,  
+  });
 }
 
 const setTrack = (track) => ({
