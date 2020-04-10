@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
 import PlaybackIcon from './components/PlaybackIcon';
@@ -39,6 +39,7 @@ class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar hidden={true} />
         <View style={styles.row}>
           <TouchableOpacity onPress={this.handleSwitchPrev}>
             <PrevIcon />

@@ -13,12 +13,13 @@ let currentSound;
 
 export const play = () => (dispatch, getState) => {
   const { player } = getState();
-  if (currentSound && currentSound._filename !== player.track.present) {
+  const presentTrackFilename = `${ExternalDirectoryPath}/${player.track.present}`;
+  if (currentSound && currentSound._filename !== presentTrackFilename) {
     currentSound.release();
     currentSound = false;
   }
   if (!currentSound) {
-    currentSound = new Sound(`${ExternalDirectoryPath}/${player.track.present}`, '', playCurrentSound);
+    currentSound = new Sound(presentTrackFilename, '', playCurrentSound);
   } else {    
     playCurrentSound();
   }
