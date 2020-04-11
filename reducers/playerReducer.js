@@ -3,8 +3,10 @@ import {
   PAUSE,
   SET_TRACK,
   ROLLBACK_TRACK,
-  ROLLFORWARD_TRACK
+  ROLLFORWARD_TRACK,
+  REMOVE_TRACK
 } from '../actions/types';
+import { removeFromList } from '../utils';
 
 const initialState = {
   isActive: false,
@@ -54,6 +56,15 @@ const playerReducer = (state = initialState, action) => {
       return {
         ...state,
         isActive: false,
+      };
+    case REMOVE_TRACK:
+      return {
+        ...state,
+        track: {
+          past: removeFromList(past, action.payload.track),
+          present,
+          future: removeFromList(future, action.payload.track)
+        },
       };
     default:
       return state;

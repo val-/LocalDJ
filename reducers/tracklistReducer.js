@@ -1,4 +1,5 @@
 import { ADD_TRACKS, REMOVE_TRACK } from '../actions/types';
+import { removeFromList } from '../utils';
 
 const initialState = [];
 
@@ -15,7 +16,5 @@ const tracklistReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-const removeFromList = (list, removedItem) => list.filter((item) => item !== removedItem);
 
 export default tracklistReducer;

@@ -38,7 +38,7 @@ class App extends React.Component {
   };
 
   handleRemove = () => {
-    this.props.remove(this.handleSwitchNext);
+    this.props.remove(this.props.track, this.handleSwitchNext);
   };
 
   render() {
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   isActive: state.player.isActive,
+  track: state.player.track.present,
 });
 
 const mapDispatchToProps = {
