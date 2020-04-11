@@ -11,7 +11,7 @@ const tracklistReducer = (state = initialState, action) => {
         ...action.payload.tracks,
       ];
     case REMOVE_TRACK:
-      return removeFromList(state, action.payload.track);      
+      return removeFromList(state, action.payload.track);
     default:
       return state;
   }
