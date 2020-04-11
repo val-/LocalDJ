@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import PlaybackIcon from './components/PlaybackIcon';
 import NextIcon from './components/NextIcon';
 import PrevIcon from './components/PrevIcon';
+import TrashIcon from './components/TrashIcon';
 
 import { play, pause, setTrackNext, setTrackPrev } from './actions/player';
-import { rescanFiles } from './actions/tracklist';
+import { rescanFiles, remove } from './actions/tracklist';
 
 class App extends React.Component {
   constructor(props) {
@@ -36,10 +37,19 @@ class App extends React.Component {
     this.props.play();
   };
 
+  handleRemove = () => {
+    this.props.remove(this.handleSwitchNext);
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
+          <View style={styles.row}>
+            <TouchableOpacity onPress={this.handleRemove}>
+              <TrashIcon/>
+            </TouchableOpacity>
+        </View>
         <View style={styles.row}>
           <TouchableOpacity onPress={this.handleSwitchPrev}>
             <PrevIcon />
@@ -51,6 +61,7 @@ class App extends React.Component {
             <NextIcon />
           </TouchableOpacity>
         </View>
+        <View style={styles.row}></View>
       </View>
     );
   }
@@ -79,6 +90,7 @@ const mapDispatchToProps = {
   rescanFiles,
   setTrackNext,
   setTrackPrev,
+  remove,
 };
 
 export default connect(

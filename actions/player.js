@@ -18,14 +18,17 @@ export const play = () => (dispatch, getState) => {
     currentSound.release();
     currentSound = false;
   }
+  const endSoundCallback = () => {
+    setTrackNext()(dispatch, getState);
+    play()(dispatch, getState);
+  };    
   if (!currentSound) {
-    currentSound = new Sound(presentTrackFilename, '', playCurrentSound);
+    currentSound = new Sound(presentTrackFilename, '', (error) => {
+      playCurrentSound(error, endSoundCallback);
+    });
   } else {    
     playCurrentSound();
   }
-  currentSound.play(() => {
-    currentSound.release();
-  });
   dispatch({
     type: PLAY,
   });
@@ -65,8 +68,14 @@ const generateNextTrack = (tracklist) => tracklist[random(tracklist.length - 1)]
 
 const random = (max) => Math.floor((max) * Math.random());
 
-const playCurrentSound = () => {
+const playCurrentSound = (error, cb) => {
+  if (error) {
+    console.log('playCurrentSound method error: ', error);
+  }    
   currentSound.play(() => {
     currentSound.release();
+    if (cb) {
+      cb();
+    }
   });
 }
