@@ -10,8 +10,24 @@ import Svg, {
 } from 'react-native-svg';
 
 export default function PlaybackIcon(props) {
+
+  const maskForView = (({ isActive, isEmpty }) => {
+    if (isEmpty) {
+      return 'empty';
+    } else if (isActive) {
+      return 'pause';
+    } else {
+      return 'play';
+    }
+  })(props);
+
   return (
     <Svg height="150" width="150" viewBox="0 0 150 150">
+
+      <Mask id="empty">
+        <Circle cx="75" cy="75" r="70" stroke="white" strokeWidth="3" />
+      </Mask>
+
       <Mask id="play">
         <Circle cx="75" cy="75" r="70" stroke="white" strokeWidth="3" />
         <Path
@@ -41,9 +57,10 @@ export default function PlaybackIcon(props) {
         <Stop offset="100%" stopColor="hsla(180, 96%, 20%, 1)" />
       </LinearGradient>
 
-      <G mask={props.isActive ? 'url(#pause)' : 'url(#play)'}>
+      <G mask={`url(#${maskForView})`}>
         <Rect width="100%" height="100%" fill="url(#gradient)" />
       </G>
+
     </Svg>
   );
 }

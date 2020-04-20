@@ -12,7 +12,7 @@ function logger({getState}) {
   return next => action => {
     console.log('will dispatch: ', action);
     const returnValue = next(action);
-    console.log('state after dispatch: ', JSON.stringify(getState(), false, 2));
+    //console.log('state after dispatch: ', JSON.stringify(getState(), false, 2));
     console.log('__________________________________________________________');
     return returnValue;
   };
