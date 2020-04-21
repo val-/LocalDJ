@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import MainScreen from './components/MainScreen';
-
+import HomeScreen from './components/HomeScreen';
 import { setTrackNext } from './actions/player';
 import { rescanFiles } from './actions/tracklist';
 
@@ -17,18 +16,14 @@ class App extends React.Component {
   }
 
   render() {
-    return <MainScreen/>;
+    return <HomeScreen/>;
   }
-}
 
-const mapStateToProps = state => ({});
+}
 
 const mapDispatchToProps = {
   rescanFiles,
   setTrackNext,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(false, mapDispatchToProps)(App);
